@@ -1,0 +1,38 @@
+---
+title: "Muziek Database"
+author: "Connor Whalen"
+date: "2024-07-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Install and load packages. 
+```{r}
+install.packages("tidyverse")
+install.packages("janitor")
+install.packages("ggeffects")
+install.packages("ggpubr")
+library(ggpubr)
+library(ggeffects)
+library(tidyverse)
+library(readr)
+library(dbplyr)
+library(lubridate)
+library(ggplot2)
+library(glmmTMB)
+```
+
+
+Assign google sheets to import into RStudio. ## this file was downloaded from google sheets on 7/12/24
+```{r}
+main <- read.csv("~/Desktop/Muziek files/Muziek - Main.csv") %>%
+  janitor::clean_names()
+
+```
+
+
+
+
