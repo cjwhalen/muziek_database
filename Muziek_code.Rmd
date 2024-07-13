@@ -24,7 +24,6 @@ library(readr)
 library(dbplyr)
 library(lubridate)
 library(ggplot2)
-library(glmmTMB)
 ```
 
 Link spreadsheet to R. 
@@ -36,11 +35,20 @@ main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C
 
 
 
-
-Assign google sheets to import into RStudio. ## this file was downloaded from google sheets on 7/12/24
+Plots 
 ```{r}
-main <- read.csv("~/Desktop/Muziek files/Muziek - Main.csv") %>%
-  janitor::clean_names()
+c_rating <- ggplot(main,
+       aes(x = year, y = rating)) + geom_point() + xlab("Year")  + 
+  ylab("Rating")  + theme_bw()
+a_rating <-  ggplot(main,
+       aes(x = year, y = a_rating)) + geom_point() + xlab("Year")  + 
+  ylab("Rating")  + theme_bw()
+ggarrange(c_rating, a_rating, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
+
+ggplot(main,
+       aes(x = year, y = genre)) + geom_boxplot() + xlab("Year")  + 
+  ylab("Genre")  + theme_bw()
+
 
 ```
 
