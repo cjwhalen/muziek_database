@@ -9,13 +9,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Install and load packages. 
+Install packages. 
 ```{r}
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("ggeffects")
 install.packages("ggpubr")
 install.packages("googlesheets4")
+```
+
+Load packages. 
+```{r}
 library(googlesheets4)
 library(ggpubr)
 library(ggeffects)
@@ -28,7 +32,7 @@ library(ggplot2)
 
 Link spreadsheet to R. 
 ```{r}
-gs4_auth()
+gs4_auth(scopes = "spreadsheets.readonly")
 main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>% 
   janitor::clean_names()
 ```
