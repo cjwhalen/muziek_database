@@ -29,14 +29,26 @@ library(dbplyr)
 library(lubridate)
 library(ggplot2)
 ```
-
-Link spreadsheet to R. 
+OPTION 1: 
+Pull spreadsheet data (.csv) off the internet via this link: https://docs.google.com/spreadsheets/d/e/2PACX-1vQKJfmHWd62rpkP21dnKIAGnMZbW7Jkf_uQXjaVSjMFQoeHi_x_NbGuH-LlsIQtmmzUJCuknTWhsuBM/pub?gid=0&single=true&output=csv
+Load database into r. Note: this file will need to be redownloaded each time you want to update the data analyses, but the .csv file updates automatically online. 
 ```{r}
-gs4_auth(scopes = "spreadsheets.readonly")
-main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>% 
+muziek_main <- read.csv("~/Downloads/Muziek - Main (2).csv") %>% 
   janitor::clean_names()
+
 ```
 
+OPTION 2: 
+Load spreadsheet data using gs4 (pull directly fromt the sheet itself).
+```{r}
+gs4_auth(scopes = "spreadsheets.readonly") 
+# muziekspreadsheet@gmail.com <-- sign in when prompted
+# muziekspreadsheet3@Tm3H@cR <-- password for google account
+
+muziek_main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>%
+  janitor::clean_names()
+
+```
 
 
 Plots 
