@@ -2,15 +2,24 @@
 title: "Muziek Database"
 author: "Connor Whalen"
 date: "2024-07-12"
-output: html_document
+output:
+  html_document:
+    theme: readable
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-Install packages. 
-```{r}
+# Welcome to the Muziek Spreadsheet
+You are probably here because you want to listen to some more music. Maybe you are here because you want to see if your taste is better than your peers. NEWSFLASH: it isn't! So the real reason you are here then is to kneel at the feet of me and mine, send your condolences to you and yours, and open those ears up to what is right. Happy listening! 
+
+#### Install packages. 
+```{r packages.i, eval=FALSE, echo=FALSE}
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("ggeffects")
@@ -18,8 +27,8 @@ install.packages("ggpubr")
 install.packages("googlesheets4")
 ```
 
-Load packages. 
-```{r}
+#### Load packages. 
+```{r packages.l, echo=TRUE}
 library(googlesheets4)
 library(ggpubr)
 library(ggeffects)
@@ -29,42 +38,39 @@ library(dbplyr)
 library(lubridate)
 library(ggplot2)
 ```
-OPTION 1: 
-Pull spreadsheet data (.csv) off the internet via this link: https://docs.google.com/spreadsheets/d/e/2PACX-1vQKJfmHWd62rpkP21dnKIAGnMZbW7Jkf_uQXjaVSjMFQoeHi_x_NbGuH-LlsIQtmmzUJCuknTWhsuBM/pub?gid=0&single=true&output=csv
-Load database into r. Note: this file will need to be redownloaded each time you want to update the data analyses, but the .csv file updates automatically online. 
-```{r}
+
+## Instructions to load database
+- OPTION 1: Pull spreadsheet data (.csv) off the internet via [this link] (https://docs.google.com/spreadsheets/d/e/2PACX-1vQKJfmHWd62rpkP21dnKIAGnMZbW7Jkf_uQXjaVSjMFQoeHi_x_NbGuH-LlsIQtmmzUJCuknTWhsuBM/pub?gid=0&single=true&output=csv).
+- Load database into r. Note: this file will need to be redownloaded each time you want to update the data analyses, but the .csv file updates automatically online. 
+```{r csv load, echo=FALSE}
 muziek_main <- read.csv("~/Downloads/Muziek - Main (2).csv") %>% 
   janitor::clean_names()
-
 ```
 
-OPTION 2: 
-Load spreadsheet data using gs4 (pull directly fromt the sheet itself).
-```{r}
+- OPTION 2: Load spreadsheet data using gs4 (pull directly fromt the sheet itself).
+```{r gs4 load, include=FALSE, eval=FALSE}
 gs4_auth(scopes = "spreadsheets.readonly") 
 # muziekspreadsheet@gmail.com <-- sign in when prompted
 # muziekspreadsheet3@Tm3H@cR <-- password for google account
-
 muziek_main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>%
   janitor::clean_names()
-
 ```
 
-
-Plots 
+### Plots 
 ```{r}
-c_rating <- ggplot(main,
+c_rating <- ggplot(muziek_main,
        aes(x = year, y = rating)) + geom_point() + xlab("Year")  + 
   ylab("Rating")  + theme_bw()
-a_rating <-  ggplot(main,
+
+a_rating <-  ggplot(muziek_main,
        aes(x = year, y = a_rating)) + geom_point() + xlab("Year")  + 
   ylab("Rating")  + theme_bw()
+
 ggarrange(c_rating, a_rating, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
 
-ggplot(main,
+ggplot(muziek_main,
        aes(x = year, y = genre)) + geom_boxplot() + xlab("Year")  + 
   ylab("Genre")  + theme_bw()
-
 
 ```
 
