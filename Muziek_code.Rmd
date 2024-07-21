@@ -45,21 +45,38 @@ Load spreadsheet data using gs4 (pull directly fromt the sheet itself).
 gs4_auth(scopes = "spreadsheets.readonly") 
 # muziekspreadsheet@gmail.com <-- sign in when prompted
 # muziekspreadsheet3@Tm3H@cR <-- password for google account
-muziek_main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>%
-  janitor::clean_names()
+muziek_main <- read_sheet("https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0") %>% 
+  janitor::clean_names() 
+```
+#### Convert dates to the proper format
+```{r}
+muziek_main <- muziek_main %>%
+  mutate(listen_date_c = as.Date(listen_date_c, format="%d-%m-%Y"),
+         continuous_scale = as.numeric(listen_date_c - min(listen_date_c, na.rm = TRUE)))
+
+muziek_main <- muziek_main %>%
+  mutate(listen_date_a = as.Date(listen_date_a, format="%d-%m-%Y"),
+         continuous_scale = as.numeric(listen_date_a - min(listen_date_a, na.rm = TRUE)))
+```
+
+#### Mutate lists into charecter variables
+```{r}
+muziek_main <- muziek_main %>%
+  mutate(title = as.character(title)) %>%
+  mutate(artist = as.character(artist)) %>%
+  mutate(artist_album_number = as.character(artist_album_number)) %>%
+  mutate(a_fav_track = as.character(a_fav_track))
 ```
 
 ### Plots 
 ```{r}
-c_ry <- ggplot(muziek_main,
-       aes(x = year, y = rating)) + geom_point() + xlab("Year")  + 
+c_rr <- ggplot(muziek_main,
+       aes(x = runtime_min, y = rating)) + geom_point() + xlab("Runtime")  + 
   ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
 
-a_ry <-  ggplot(muziek_main,
-       aes(x = year, y = a_rating)) + geom_point() + xlab("Year")  + 
+a_rr <-  ggplot(muziek_main,
+       aes(x = runtime_min, y = a_rating)) + geom_point() + xlab("Runtime")  + 
   ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
-
-ggarrange(c_ry, a_ry, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
 
 c_rg <- ggplot(muziek_main,
        aes(x = gender, y = rating)) + geom_boxplot() + xlab("Gender")  + 
@@ -69,31 +86,18 @@ a_rg <-  ggplot(muziek_main,
        aes(x = gender, y = a_rating)) + geom_boxplot() + xlab("Gender")  + 
   ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
 
-ggarrange(c_rg, a_rg, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
+ggarrange(c_rr, a_rr, c_rg, a_rg, common.legend = TRUE, legend = "bottom", labels = c("A", "B", "C", "D"))
+#####################
 
-c_rg2 <- ggplot(muziek_main,
-       aes(x = genre, y = rating)) + geom_boxplot() + xlab("Genre")  + 
+c_rd <- ggplot(muziek_main,
+       aes(x = listen_date_c, y = rating)) + geom_point() + xlab("Date Listened")  + 
   ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
 
-a_rg2 <-  ggplot(muziek_main,
-       aes(x = genre, y = a_rating)) + geom_boxplot() + xlab("Genre")  + 
+a_rd <- ggplot(muziek_main,
+       aes(x = listen_date_a, y = rating)) + geom_point() + xlab("Date Listened")  + 
   ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
 
-ggarrange(c_rg2, a_rg2, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
-
-c_rl <- ggplot(muziek_main,
-       aes(x = general_location, y = rating)) + geom_boxplot() + xlab("Genre")  + 
-  ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
-
-a_rl <-  ggplot(muziek_main,
-       aes(x = general_location, y = a_rating)) + geom_boxplot() + xlab("Genre")  + 
-  ylab("Rating")  + theme_bw() + geom_smooth(method = lm)
-
-ggarrange(c_rl, a_rl, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
-
-ggplot(muziek_main,
-       aes(x = year, y = runtime_min)) + geom_point() + xlab("Year")  + 
-  ylab("Runtime")  + theme_bw() + geom_smooth(method = lm)
+ggarrange(c_rd, a_rd, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
 
 ```
 
