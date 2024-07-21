@@ -43,7 +43,7 @@ library(ggplot2)
 - OPTION 1: Pull spreadsheet data (.csv) off the internet via [this link] (https://docs.google.com/spreadsheets/d/e/2PACX-1vQKJfmHWd62rpkP21dnKIAGnMZbW7Jkf_uQXjaVSjMFQoeHi_x_NbGuH-LlsIQtmmzUJCuknTWhsuBM/pub?gid=0&single=true&output=csv).
 - Load database into r. Note: this file will need to be redownloaded each time you want to update the data analyses, but the .csv file updates automatically online. 
 ```{r csv load, echo=FALSE}
-muziek_main <- read.csv("~/Downloads/Muziek - Main (2).csv") %>% 
+muziek_main <- read.csv("~/Downloads/Muziek - Main (4).csv") %>% 
   janitor::clean_names()
 ```
 
