@@ -119,15 +119,10 @@ a_gh <-  ggplot(muziek_main,
 ggarrange(c_gg, a_gg, c_gh, a_gh, common.legend = TRUE, legend = "bottom", labels = c("A", "B", "C", "D"))
 
 #####
-t_geh <- ggplot(muziek_main,
-       aes(x = genre)) + geom_bar() + xlab("Gender")  + 
+ggplot(muziek_main,
+       aes(x = genre, fill = gender)) + geom_bar() + xlab("Genre")  + 
   ylab("Count")  + theme_bw()
 
-t_gehg <-  ggplot(muziek_main,
-       aes(x = genre, fill = gender)) + geom_bar() + xlab("Gender")  + 
-  ylab("Count")  + theme_bw()
-
-ggarrange(t_geh, t_gehg, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
 ```
 
 
