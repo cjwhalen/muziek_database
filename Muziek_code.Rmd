@@ -99,6 +99,25 @@ a_rd <- ggplot(muziek_main,
 
 ggarrange(c_rd, a_rd, common.legend = TRUE, legend = "bottom", labels = c("A", "B"))
 
+#######
+c_gg <- ggplot(muziek_main,
+       aes(x = gender, y = genre)) + geom_count() + xlab("Gender")  + 
+  ylab("Genre")  + theme_bw()
+
+a_gg <-  ggplot(muziek_main,
+       aes(x = gender, y = genre)) + geom_count() + xlab("Gender")  + 
+  ylab("Genre")  + theme_bw()
+
+c_gh <- ggplot(muziek_main,
+       aes(x = gender)) + geom_bar() + xlab("Gender")  + 
+  ylab("Count")  + theme_bw()
+
+a_gh <-  ggplot(muziek_main,
+       aes(x = gender)) + geom_bar() + xlab("Gender")  + 
+  ylab("Count")  + theme_bw()
+
+ggarrange(c_gg, a_gg, c_gh, a_gh, common.legend = TRUE, legend = "bottom", labels = c("A", "B", "C", "D"))
+
 ```
 
 
