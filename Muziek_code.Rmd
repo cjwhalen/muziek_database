@@ -28,7 +28,7 @@ install.packages("googlesheets4")
 ```
 
 #### Load packages. 
-```{r packages.l, echo=TRUE}
+```{r packages.l, echo=FALSE}
 library(googlesheets4)
 library(ggpubr)
 library(ggeffects)
@@ -40,7 +40,15 @@ library(ggplot2)
 ```
 
 ## Instructions to load database
-Load spreadsheet data using gs4 (pull directly fromt the sheet itself).
+- remote/public access
+```{r, echo=FALSE}
+# Read the Google Sheet
+sheet_url <- "https://docs.google.com/spreadsheets/d/1QH27wRqhg-6MS9vdQt7C73dLpHvsv3nov9YgxcZOlJQ/edit?pli=1&gid=0#gid=0"
+muziek_main <- read_sheet(sheet_url) %>% 
+  janitor::clean_names()
+```
+
+- local/private access
 ```{r gs4 load, include=FALSE, eval=FALSE}
 gs4_auth(scopes = "spreadsheets.readonly") 
 # muziekspreadsheet@gmail.com <-- sign in when prompted
@@ -68,7 +76,7 @@ muziek_main <- muziek_main %>%
   mutate(a_fav_track = as.character(a_fav_track))
 ```
 
-### Plots 
+# Plots 
 ```{r}
 c_rr <- ggplot(muziek_main,
        aes(x = runtime_min, y = rating)) + geom_point() + xlab("Runtime")  + 
